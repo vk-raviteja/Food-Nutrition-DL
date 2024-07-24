@@ -1,13 +1,33 @@
 import streamlit as st 
-import tensorflow as tf from tensorflow.keras.applications.imagenet_utils
-import decode_predictions 
-import cv2 from PIL
-import Image, ImageOps
+import tensorflow as tf
+from PIL import Image
 import numpy as np
 import torchvision
 import torch
-from .LTP import M_GCN
+from models import get_model
 import torchvision.transforms as transforms
+import google.generativeai as genai
+import os
+os.environ['GOOGLE_API_KEY'] = 'AIzaSyBDznwGIj6ohCqsCiogRyG5yY7dNoFJ9s8'
+# Set up the Gemini API
+genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
+
+
+# Function to get nutritional information for a list of ingredients
+def get_nutritional_info(ingredients):
+    model = genai.GenerativeModel('gemini-pro')
+
+    prompt = f"""
+    Let's have a conversation about the nutritional values of some ingredients.
+    Here are the ingredients I'm interested in: {', '.join(ingredients)}.
+
+    Could you please tell me the nutritional information for each ingredient, including calories, protein, carbohydrates, and fat content per 100g?
+    Please respond as a summary paragraph.
+    """
+
+    response = model.generate_content(prompt)
+    return response.text
+
 @st.cache(allow_output_mutation=True)
 
 def pred2name(predlist):
@@ -20,12 +40,6 @@ def pred2name(predlist):
     if len(final_class)==0:
         print("No Class Detected !")
     return final_class
-
-def get_model(num_classes, args):
-    model_dict = {'M_GCN': M_GCN}
-    res101 = torchvision.models.resnet101(pretrained=True)
-    model = model_dict[args.model_name](res101, num_classes)
-    return model
 
 class Args:
     def __init__(self, model_name= "M_GCN", num_class = 57, resume = './checkpoint/checkpoint_best.pth', y = 0.5, image_size = 224): 
@@ -57,7 +71,6 @@ def upload_predict(upload_image, model, args):
             print('\tMismatched layers: {}'.format(k))
     model.load_state_dict(model_dict)
 
-    image = Image.open(upload_image).convert('RGB')
     resize = transforms.Compose([
             transforms.Resize((args.image_size,args.image_size)),
             transforms.ToTensor(),
@@ -79,11 +92,15 @@ def upload_predict(upload_image, model, args):
 if file is None: 
     st.text("Please upload an Indian Dish") 
 else: 
-    image = Image.open(file) 
+    image = Image.open(file).convert('RGB')
     st.image(image, use_column_width=True) 
     predictions = upload_predict(image,model,args) 
     image_class = ",".join(predictions)
     # score=np.round(predictions[0][0][2]) 
-    st.write("This dish has these ingredients:: ",image_class) 
+    st.write("This dish has these ingredients:: ",image_class)
+    # Example usage
+    nutritional_info = get_nutritional_info(predictions)
+    print("CAlorie::", type(nutritional_info))
+    st.write("Approximate nutritional profile of this dish:: \n",nutritional_info)
     # st.write("The similarity score is approximately",score)
     # print("The image is classified as ",image_class, "with a similarity score of",score)
