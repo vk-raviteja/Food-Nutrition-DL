@@ -51,7 +51,7 @@ def pred2name(predlist):
     return final_class
 
 class Args:
-    def __init__(self, model_name= "M_GCN", num_class = 57, resume = 'https://github.com/vk-raviteja/Food-Nutrition-DL/blob/main/test/checkpoint/checkpoint_best.pth', y = 0.5, image_size = 224): 
+    def __init__(self, model_name= "M_GCN", num_class = 57, resume = './test/checkpoint/checkpoint_best.pth', y = 0.5, image_size = 224): 
         # Instance Variable     
         self.model_name = model_name
         self.num_class = num_class
