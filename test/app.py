@@ -106,10 +106,11 @@ else:
     predictions = upload_predict(image,model,args) 
     image_class = ", ".join(predictions)
     # score=np.round(predictions[0][0][2]) 
-    st.write("This dish has these ingredients:: ",image_class)
+    st.write("This dish has these ingredients :: ",image_class)
     # Example usage
     nutritional_info = get_nutritional_info(predictions)
     print("CAlorie::", type(nutritional_info))
-    st.write("Approximate nutritional profile of this dish:: \n",nutritional_info)
+    st.write("Approximate nutritional profile of this dish ::")
+    st.write(nutritional_info)
     # st.write("The similarity score is approximately",score)
     # print("The image is classified as ",image_class, "with a similarity score of",score)
