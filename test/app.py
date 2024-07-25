@@ -34,7 +34,7 @@ def get_nutritional_info(ingredients):
     response = model.generate_content(prompt)
     # response = model.generate_content("The opposite of hot is")
     print("Response text :",type(response),  vars(response))
-    return response
+    return response.text
     # return response.text
 
 @st.cache(allow_output_mutation=True)
@@ -66,7 +66,7 @@ with st.spinner('Model is being loaded..'):
     model=get_model(args.num_class,args)
 
 st.write(""" # Image Classification """ ) 
-file = st.file_uploader("Upload the image to be classified U0001F447", type=["jpg", "png"]) 
+file = st.file_uploader("Please upload an Indian Dish", type=["jpg", "png"]) 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
 def upload_predict(upload_image, model, args):
