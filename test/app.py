@@ -27,7 +27,7 @@ def get_nutritional_info(ingredients):
     Let's have a conversation about the nutritional values of some ingredients.
     Here are the ingredients I'm interested in: {', '.join(ingredients)}.
 
-    Could you please tell me the nutritional information of an Indian dish made from these ingredient, including calories, protein, carbohydrates, and fat content ?
+    Please tell me the nutritional and calorie profile of an Indian dish made from these ingredients, including calories, protein, carbohydrates, and fat content.
     Please respond as a summary paragraph.
     """
 
