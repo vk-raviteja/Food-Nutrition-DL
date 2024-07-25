@@ -15,18 +15,27 @@ genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
 
 # Function to get nutritional information for a list of ingredients
 def get_nutritional_info(ingredients):
-    model = genai.GenerativeModel('gemini-pro')
+    # for m in genai.list_models():
+    #     if 'generateContent' in m.supported_generation_methods:
+    #         print(m.name)
+    #         print(m.description)
+    #         print("--"*25)
+
+    model = genai.GenerativeModel('gemini-1.0-pro-latest')
 
     prompt = f"""
     Let's have a conversation about the nutritional values of some ingredients.
     Here are the ingredients I'm interested in: {', '.join(ingredients)}.
 
-    Could you please tell me the nutritional information for each ingredient, including calories, protein, carbohydrates, and fat content per 100g?
+    Could you please tell me the nutritional information of an Indian dish made from these ingredient, including calories, protein, carbohydrates, and fat content ?
     Please respond as a summary paragraph.
     """
 
     response = model.generate_content(prompt)
-    return response.text
+    # response = model.generate_content("The opposite of hot is")
+    print("Response text :",type(response),  vars(response))
+    return response
+    # return response.text
 
 @st.cache(allow_output_mutation=True)
 
@@ -95,7 +104,7 @@ else:
     image = Image.open(file).convert('RGB')
     st.image(image, use_column_width=True) 
     predictions = upload_predict(image,model,args) 
-    image_class = ",".join(predictions)
+    image_class = ", ".join(predictions)
     # score=np.round(predictions[0][0][2]) 
     st.write("This dish has these ingredients:: ",image_class)
     # Example usage
