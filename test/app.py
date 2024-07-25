@@ -37,8 +37,6 @@ def get_nutritional_info(ingredients):
     return response.text
     # return response.text
 
-@st.cache(allow_output_mutation=True)
-
 def pred2name(predlist):
     # voclabel = ["areoplane","bicycle","bird","boat","bottle","bus","car","cat","chair","cow","diningtable","dog","horse","motorbike","person","pottedplant","sheep","sofa","train","tvmonitor"]
     voclabel = ['baking powder', 'basmati rice', 'bitter gourd', 'black lentils', 'black rice', 'bread', 'bread crumbs', 'butter', 'capsicum', 'cardamom', 'carrots', 'cauliflower', 'chicken', 'chickpea flour', 'chickpeas', 'coconut', 'cornmeal', 'cottage cheese', 'cream', 'fenugreek leaves', 'fish', 'flour', 'ghee', 'gram flour', 'green peas', 'jaggery', 'khoya', 'kidney beans', 'lentils', 'milk', 'mustard greens', 'mustard oil', 'nuts', 'oil', 'okra', 'onions', 'paneer', 'peanuts', 'peas', 'poppy seeds', 'potatoes', 'rice', 'rice flour', 'roasted gram flour', 'saffron', 'salt', 'sesame seeds', 'spices', 'sugar', 'tomatoes', 'urad dal', 'vegetables', 'water', 'wheat flour', 'whole wheat flour', 'yellow lentils', 'yogurt']
